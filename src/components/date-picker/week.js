@@ -5,7 +5,7 @@ import {
   addDays,
   cloneDate,
   getStartOfWeek,
-} from './date_utils';
+} from './date-utils';
 
 export default class Week extends React.Component {
   handleDayClick = (day, event) => {
@@ -40,7 +40,6 @@ export default class Week extends React.Component {
             inline={this.props.inline}
             highlightDates={this.props.highlightDates}
             selectingDate={this.props.selectingDate}
-            filterDate={this.props.filterDate}
             preSelection={this.props.preSelection}
             selected={this.props.selected}
             selectsStart={this.props.selectsStart}
@@ -65,7 +64,6 @@ Week.propTypes = {
   dayClassName: PropTypes.func,
   endDate: PropTypes.object,
   excludeDates: PropTypes.array,
-  filterDate: PropTypes.func,
   highlightDates: PropTypes.instanceOf(Map),
   includeDates: PropTypes.array,
   inline: PropTypes.bool,

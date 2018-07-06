@@ -10,7 +10,7 @@ import {
   getStartOfWeek,
   getStartOfMonth,
   isSameMonth,
-} from './date_utils';
+} from './date-utils';
 
 const PREFIX_CLASSNAME = 'react-datepicker__month';
 
@@ -68,7 +68,6 @@ export default class Month extends React.Component {
           inline={this.props.inline}
           highlightDates={this.props.highlightDates}
           selectingDate={this.props.selectingDate}
-          filterDate={this.props.filterDate}
           preSelection={this.props.preSelection}
           selected={this.props.selected}
           selectsStart={this.props.selectsStart}
@@ -130,7 +129,6 @@ Month.propTypes = {
   dayClassName: PropTypes.func,
   endDate: PropTypes.object,
   excludeDates: PropTypes.array,
-  filterDate: PropTypes.func,
   fixedHeight: PropTypes.bool,
   highlightDates: PropTypes.instanceOf(Map),
   includeDates: PropTypes.array,

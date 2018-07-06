@@ -9,8 +9,11 @@ import {
   isDayDisabled,
   isDayInRange,
   isSameDay,
+  isSameOrBefore,
+  isSameOrAfter,
+  formatDate,
   now,
-} from './date_utils';
+} from './date-utils';
 
 const PREFIX_CLASSNAME = 'react-datepicker__day';
 
@@ -44,7 +47,7 @@ export default class Day extends React.Component {
     }
 
     // Looking for className in the Map of {'day string, 'className'}
-    const dayStr = day.format('MM.DD.YYYY');
+    const dayStr = formatDate(day, 'mm.dd.yyyy');
     return highlightDates.get(dayStr);
   };
 
@@ -70,11 +73,11 @@ export default class Day extends React.Component {
       return false;
     }
 
-    if (selectsStart && endDate && selectingDate.isSameOrBefore(endDate)) {
+    if (selectsStart && endDate && isSameOrBefore(selectingDate, endDate)) {
       return isDayInRange(day, selectingDate, endDate);
     }
 
-    if (selectsEnd && startDate && selectingDate.isSameOrAfter(startDate)) {
+    if (selectsEnd && startDate && isSameOrAfter(selectingDate, startDate)) {
       return isDayInRange(day, startDate, selectingDate);
     }
 

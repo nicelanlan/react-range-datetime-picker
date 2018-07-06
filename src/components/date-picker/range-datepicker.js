@@ -1,6 +1,6 @@
 import React from 'react';
 import DatePicker from './date-picker';
-import moment from 'moment';
+import { addMonths } from './date-utils';
 
 const PREFIX_CLASSNAME = 'react-datepicker';
 export default class RangeDatePicker extends React.Component {
@@ -8,8 +8,8 @@ export default class RangeDatePicker extends React.Component {
     super(props);
     this.state = {
       endPickerOpen: false,
-      startDate: moment(),
-      endDate: moment(),
+      startDate: new Date(),
+      endDate: new Date(),
     };
   }
 
@@ -52,18 +52,18 @@ export default class RangeDatePicker extends React.Component {
           endDate={this.state.endDate}
           onChange={this.handleChangeStart}
           showTimeSelect
-          timeFormat="HH:mm"
+          timeFormat="HH:MM"
           timeIntervals={15}
           timeCaption="time"
-          dateFormat="LLL"
+          dateFormat="yyyy-mm-dd HH:MM"
           afterSelected={this.afterStartPickerSelected}
-          // injectTimes={[
-          //   new Date(injectTime1),
-          //   new Date(injectTime2),
-          // ]}
           injectTimes={[
-            moment().hours(0).minutes(1)
+            new Date(injectTime1),
+            new Date(injectTime2),
           ]}
+          minDate={new Date()}
+          maxDate={addMonths(new Date(), 5)}
+          showDisabledMonthNavigation
         />
         -&nbsp;
         <DatePicker
@@ -74,10 +74,10 @@ export default class RangeDatePicker extends React.Component {
           endDate={this.state.endDate}
           onChange={this.handleChangeEnd}
           showTimeSelect
-          timeFormat="HH:mm"
+          timeFormat="HH:MM"
           timeIntervals={15}
           timeCaption="time"
-          dateFormat="LLL"
+          dateFormat="yyyy-mm-dd HH:MM"
           afterSelected={this.afterEndPickerSelected}
         />
         <hr className={`${PREFIX_CLASSNAME}-range-line`} />

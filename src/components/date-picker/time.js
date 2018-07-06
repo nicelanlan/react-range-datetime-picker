@@ -11,7 +11,7 @@ import {
   isTimeInDisabledRange,
   isTimeDisabled,
   timesToInjectAfter
-} from './date_utils';
+} from './date-utils';
 
 export default class Time extends React.Component {
   static propTypes = {
@@ -58,7 +58,6 @@ export default class Time extends React.Component {
     ) {
       return;
     }
-
     this.props.onChange(time);
   };
 

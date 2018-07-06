@@ -12,19 +12,16 @@ import {
   addDays,
   cloneDate,
   formatDate,
-  localizeDate,
   isBefore,
   isAfter,
-  getLocaleData,
-  getFormattedWeekdayInLocale,
-  getWeekdayShortInLocale,
-  getWeekdayMinInLocale,
+  getDayOfWeekCodeShort,
+  getDayOfWeekCodeMin,
   isSameDay,
   allDaysDisabledBefore,
   allDaysDisabledAfter,
   getEffectiveMinDate,
   getEffectiveMaxDate
-} from './date_utils';
+} from './date-utils';
 
 const PREFIX_CLASSNAME = 'react-datepicker';
 
@@ -32,7 +29,7 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: this.localizeDate(this.getDateInView()),
+      date: this.getDateInView(),
       selectingDate: null,
       monthContainer: this.monthContainer
     };
@@ -56,14 +53,14 @@ export default class Calendar extends React.Component {
       !isSameDay(this.props.preSelection, prevProps.preSelection)
     ) {
       this.setState({
-        date: this.localizeDate(this.props.preSelection)
+        date: this.props.preSelection
       });
     } else if (
       this.props.openToDate &&
       !isSameDay(this.props.openToDate, prevProps.openToDate)
     ) {
       this.setState({
-        date: this.localizeDate(this.props.openToDate)
+        date: this.props.openToDate
       });
     }
   }
@@ -86,7 +83,7 @@ export default class Calendar extends React.Component {
     return current;
   };
 
-  localizeDate = date => localizeDate(date, this.props.locale);
+  // localizeDate = date => localizeDate(date, this.props.locale);
 
   increaseMonth = () => {
     this.setState(
@@ -138,8 +135,7 @@ export default class Calendar extends React.Component {
     return dayNames.concat(
       [0, 1, 2, 3, 4, 5, 6].map(offset => {
         const day = addDays(cloneDate(startOfWeek), offset);
-        const localeData = getLocaleData(day);
-        const weekDayName = this.formatWeekday(localeData, day);
+        const weekDayName = this.formatWeekday(day);
 
         return (
           <div key={offset} className={`${PREFIX_CLASSNAME}__day-name`}>
@@ -150,17 +146,10 @@ export default class Calendar extends React.Component {
     );
   };
 
-  formatWeekday = (localeData, day) => {
-    if (this.props.formatWeekDay) {
-      return getFormattedWeekdayInLocale(
-        localeData,
-        day,
-        this.props.formatWeekDay
-      );
-    }
+  formatWeekday = (day) => {
     return this.props.useWeekdaysShort
-      ? getWeekdayShortInLocale(localeData, day)
-      : getWeekdayMinInLocale(localeData, day);
+      ? getDayOfWeekCodeShort(day)
+      : getDayOfWeekCodeMin( day);
   };
 
   renderPreviousMonthButton = () => {
@@ -279,7 +268,6 @@ export default class Calendar extends React.Component {
             includeDates={this.props.includeDates}
             inline={this.props.inline}
             fixedHeight={this.props.fixedHeight}
-            filterDate={this.props.filterDate}
             preSelection={this.props.preSelection}
             selected={this.props.selected}
             selectsStart={this.props.selectsStart}
@@ -342,7 +330,6 @@ Calendar.propTypes = {
   dayClassName: PropTypes.func,
   endDate: PropTypes.object,
   excludeDates: PropTypes.array,
-  filterDate: PropTypes.func,
   fixedHeight: PropTypes.bool,
   formatWeekNumber: PropTypes.func,
   highlightDates: PropTypes.instanceOf(Map),

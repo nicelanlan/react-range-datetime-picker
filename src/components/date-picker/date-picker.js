@@ -33,7 +33,7 @@ import {
   getHightLightDaysMap,
   getYear,
   getMonth
-} from './date_utils';
+} from './date-utils';
 
 const PREFIX_CLASSNAME = 'react-datepicker';
 
@@ -418,7 +418,6 @@ export default class DatePicker extends React.Component {
         startDate={this.props.startDate}
         endDate={this.props.endDate}
         excludeDates={this.props.excludeDates}
-        filterDate={this.props.filterDate}
         formatWeekNumber={this.props.formatWeekNumber}
         highlightDates={this.state.highlightDates}
         includeDates={this.props.includeDates}
@@ -551,7 +550,6 @@ DatePicker.propTypes = {
   disabledKeyboardNavigation: PropTypes.bool,
   endDate: PropTypes.object,
   excludeDates: PropTypes.array,
-  filterDate: PropTypes.func,
   fixedHeight: PropTypes.bool,
   formatWeekNumber: PropTypes.func,
   highlightDates: PropTypes.array,
@@ -610,7 +608,7 @@ DatePicker.propTypes = {
 DatePicker.defaultProps = {
   allowSameDay: false,
   dateFormat: 'L',
-  dateFormatCalendar: 'MMMM YYYY',
+  dateFormatCalendar: 'mm yyyy',
   onChange() {},
   disabled: false,
   disabledKeyboardNavigation: false,

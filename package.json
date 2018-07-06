@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "dateformat": "^3.0.3",
     "moment": "^2.20.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
