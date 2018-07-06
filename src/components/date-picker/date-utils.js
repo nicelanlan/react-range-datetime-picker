@@ -227,14 +227,14 @@ export function subtractYears(date, amount) {
 
 export function isBefore(date1, date2) {
   if (date1 && !date2) {
-    return true;
+    return false;
   }
   return date1.getTime() < date2.getTime();
 }
 
 export function isAfter(date1, date2) {
   if (date1 && !date2) {
-    return true;
+    return false;
   }
   return date1.getTime() > date2.getTime();
 }
@@ -290,7 +290,7 @@ export function isSameUtcOffset(moment1, moment2) {
 }
 
 export function isDayInRange(day, startDate, endDate) {
-  return (startDate ? day.getTime() >= setTime(startDate, 0, 0, 0).getTime() : false) && (endDate ? setTime(day, 0, 0, 0).getTime() <= endDate.getTime() : false);
+  return (startDate ? day.getTime() >= setTime(startDate, 0, 0, 0).getTime() : true) && (endDate ? setTime(day, 0, 0, 0).getTime() <= endDate.getTime() : true);
 }
 
 // ** Utils for some components **
@@ -299,23 +299,23 @@ export function isDayDisabled(day, { minDate, maxDate, excludeDates, includeDate
   let length = excludeDates ? excludeDates.length : 0;
   if (length) {
     for (let i = 0; i < length; i++) {
-      if (day.getDate() === excludeDates[i].getDate()) {
-        return false;
+      if (setTime(day, 0, 0, 0).getTime() === setTime(excludeDates[i], 0, 0, 0).getTime()) {
+        return true;
       }
     }
   }
   length = includeDates ? includeDates.length : 0;
   if (length) {
     for (let i = 0; i < length; i++) {
-      if (day.getDate() === includeDates[i].getDate()) {
-        return true;
+      if (setTime(day, 0, 0, 0).getTime() === setTime(includeDates[i], 0, 0, 0).getTime()) {
+        return false;
       }
     }
   }
   if (isDayInRange(day, minDate, maxDate)) {
-    return true;
+    return false;
   }
-  return false;
+  return true;
 }
 
 export function isTimeDisabled(time, disabledTimes) {
@@ -372,9 +372,9 @@ export function allDaysDisabledAfter(day, unit, { maxDate, includeDates } = {}) 
     }
   }
   if (isAfter(dateAfter, maxDate)) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 }
 
 export function getEffectiveMinDate({ minDate, includeDates }) {
