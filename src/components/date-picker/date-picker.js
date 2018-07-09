@@ -70,7 +70,7 @@ export default class DatePicker extends React.Component {
     window.addEventListener('click', event => {
       if (!event.target.className.startsWith('react-datepicker')) {
         this.setOpen(false);
-        this.props.afterSelected && this.props.afterSelected();
+        // this.props.afterSelected && this.props.afterSelected();
       }
     });
   }

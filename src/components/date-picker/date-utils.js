@@ -28,6 +28,18 @@ const dayOfWeekCodesShort = {
   6: 'Sat',
 };
 
+export function getTimeByDate(date) {
+  if (!date) {
+    return 0;
+  }
+  const dateClone = cloneDate(date);
+  return setTime(dateClone, {
+    hour: 0,
+    minute: 0,
+    second: 0,
+  }).getTime();
+}
+
 export function newDate(point) {
   return point ? new Date(point) : new Date();
 }
@@ -44,7 +56,10 @@ export function cloneDate(date) {
 }
 
 export function parseDate(value, { dateFormat, locale }) {
-  const m = Date.parse(value);
+  let m = Date.parse(value);
+  if (isNaN(m)) {
+    m = new Date(value.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+  }
   return isNaN(m) ? null : m;
 }
 
@@ -275,7 +290,7 @@ export function isSameMonth(date1, date2) {
 
 export function isSameDay(moment1, moment2) {
   if (moment1 && moment2) {
-    return setTime(moment1, 0, 0, 0).getTime() === setTime(moment2, 0, 0, 0).getTime();
+    return getTimeByDate(moment1) === getTimeByDate(moment2);
   } else {
     return !moment1 && !moment2;
   }
@@ -290,7 +305,7 @@ export function isSameUtcOffset(moment1, moment2) {
 }
 
 export function isDayInRange(day, startDate, endDate) {
-  return (startDate ? day.getTime() >= setTime(startDate, 0, 0, 0).getTime() : true) && (endDate ? setTime(day, 0, 0, 0).getTime() <= endDate.getTime() : true);
+  return (startDate ? day.getTime() >= getTimeByDate(startDate) : true) && (endDate ? getTimeByDate(day) <= endDate.getTime() : true);
 }
 
 // ** Utils for some components **
@@ -299,7 +314,7 @@ export function isDayDisabled(day, { minDate, maxDate, excludeDates, includeDate
   let length = excludeDates ? excludeDates.length : 0;
   if (length) {
     for (let i = 0; i < length; i++) {
-      if (setTime(day, 0, 0, 0).getTime() === setTime(excludeDates[i], 0, 0, 0).getTime()) {
+      if (getTimeByDate(day) === getTimeByDate(excludeDates[i])) {
         return true;
       }
     }
@@ -307,7 +322,7 @@ export function isDayDisabled(day, { minDate, maxDate, excludeDates, includeDate
   length = includeDates ? includeDates.length : 0;
   if (length) {
     for (let i = 0; i < length; i++) {
-      if (setTime(day, 0, 0, 0).getTime() === setTime(includeDates[i], 0, 0, 0).getTime()) {
+      if (getTimeByDate(day) === getTimeByDate(includeDates[i])) {
         return false;
       }
     }

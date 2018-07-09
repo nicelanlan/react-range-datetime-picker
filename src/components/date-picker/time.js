@@ -44,7 +44,7 @@ export default class Time extends React.Component {
     const currH = this.props.selected
       ? getHour(this.props.selected)
       : getHour(newDate());
-    this.list.scrollTop = 30 * (multiplier * currH);
+    this.list.scrollTop = 25 * (multiplier * currH);
   }
 
   handleClick = time => {
