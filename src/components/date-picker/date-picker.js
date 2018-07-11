@@ -1,4 +1,5 @@
 import Calendar from './calendar';
+import OutsideClick from './outside-click';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -67,12 +68,6 @@ export default class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.calcInitialState();
-    window.addEventListener('click', event => {
-      if (!event.target.className.startsWith('react-datepicker')) {
-        this.setOpen(false);
-        // this.props.afterSelected && this.props.afterSelected();
-      }
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -183,11 +178,11 @@ export default class DatePicker extends React.Component {
     this.setState({ focused: false });
   };
 
-  handleCalendarClickOutside = event => {
+  handleClickOutside = event => {
     if (!this.props.inline) {
       this.setOpen(false);
     }
-    this.props.onClickOutside(event);
+    this.props.onClickOutside && this.props.onClickOutside();
   };
 
   handleChange = (...allArgs) => {
@@ -518,15 +513,17 @@ export default class DatePicker extends React.Component {
     const classes = classnames('react-datepicker-popper', this.props.popperClassName);
     const display = (this.state.open && !this.props.disabled) || this.props.startOpen ? 'block' : 'none';
     return (
-      <div className="react-datepicker-wrapper">
-        <div className={`${PREFIX_CLASSNAME}__input-container`}>
-          {this.renderDateInput()}
-          {this.renderClearButton()}
+      <OutsideClick onClickOutside={this.handleClickOutside}>
+        <div className="react-datepicker-wrapper">
+          <div className={`${PREFIX_CLASSNAME}__input-container`}>
+            {this.renderDateInput()}
+            {this.renderClearButton()}
+          </div>
+          <div className={classes} style={{display}}>
+            {calendar}
+          </div>
         </div>
-        <div className={classes} style={{display}}>
-          {calendar}
-        </div>
-      </div>
+      </OutsideClick>
     );
   }
 }

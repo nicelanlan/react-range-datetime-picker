@@ -1,6 +1,5 @@
 import React from 'react';
 import DatePicker from './date-picker';
-// import { addMonths } from './date-utils';
 
 const PREFIX_CLASSNAME = 'react-datepicker';
 export default class RangeDatePicker extends React.Component {
@@ -32,6 +31,12 @@ export default class RangeDatePicker extends React.Component {
   }
 
   afterEndPickerSelected= () => {
+    this.setState({
+      endPickerOpen: false,
+    });
+  }
+
+  onClickOutside = () => {
     this.setState({
       endPickerOpen: false,
     });
@@ -73,6 +78,7 @@ export default class RangeDatePicker extends React.Component {
           startDate={this.state.startDate}
           endDate={this.state.endDate}
           onChange={this.handleChangeEnd}
+          onClickOutside={this.onClickOutside}
           showTimeSelect
           timeFormat="HH:MM"
           timeIntervals={15}
