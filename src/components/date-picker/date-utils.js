@@ -360,7 +360,7 @@ export function isTimeInDisabledRange(time, { minTime, maxTime }) {
 }
 
 export function allDaysDisabledBefore(day, unit, { minDate, includeDates } = {}) {
-  const dateBefore = subtractMonths(day, 1);
+  const dateBefore = getEndOfMonth(subtractMonths(day, 1));
   const length = includeDates ? includeDates.length : 0;
   if (length) {
     for (let i = 0; i < length; i++) {
@@ -377,7 +377,7 @@ export function allDaysDisabledBefore(day, unit, { minDate, includeDates } = {})
 }
 
 export function allDaysDisabledAfter(day, unit, { maxDate, includeDates } = {}) {
-  const dateAfter = addMonths(day, 1);
+  const dateAfter = getStartOfMonth(addMonths(day, 1));
   const length = includeDates ? includeDates.length : 0;
   if (length) {
     for (let i = 0; i < length; i++) {

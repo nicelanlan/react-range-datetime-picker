@@ -1,8 +1,8 @@
 @import "variables.scss";
-@import "mixins.scss";
 
 .react-datepicker-wrapper {
   display: inline-block;
+  margin-top: -6px;
 }
 
 .react-datepicker {
@@ -16,13 +16,9 @@
   position: relative;
 }
 
-.react-datepicker__triangle {
-  position: absolute;
-  left: 50px;
-}
-
 .react-datepicker-popper {
-  z-index: 1;
+  width: 314px;
+  z-index: 2000;
   position: absolute;
 }
 
@@ -323,18 +319,35 @@
   }
 }
 
-.react-datepicker-range {
-  // border: solid 1px;
-  display: inline-block;
+.react-datepicker-range {    
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 .react-datepicker-range-line {
   position: absolute;
-  width: 300px;
-  border: solid 1px rgba(0, 0, 0, 0.12);
-  top: 10px;
+  width: 260px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.12);
+  margin-top: 10px;
 }
 
 .react-datepicker-input-range {
   border: none;
-  width: 140px;
+  width: 110px;
+  outline: none;
+  font-size: 14px;
+  
+  &::placeholder {
+    color: rgba(0,0,0,0.3)
+  }
+}
+
+.react-datepicker-triangle_down {
+  position: relative;
+  left: 20px;
+  width:0;
+  height:0;
+  border-width:5px 5px 0;
+  border-style:solid;
+  border-color:$datepicker__triangle-color transparent transparent;
 }

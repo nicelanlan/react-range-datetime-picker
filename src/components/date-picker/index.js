@@ -1,3 +1,5 @@
+import './stylesheets/datepicker-cssmodules.scss';
+
 import DatePicker from './date-picker';
 
 export default DatePicker;

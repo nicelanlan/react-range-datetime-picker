@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Component that alerts if you click outside of it
+ * Component that listen event of clicking outside of it.
+ *
+ * @export
+ * @class OutsideClick
+ * @extends {Component}
  */
 export default class OutsideClick extends Component {
   constructor(props) {
@@ -22,17 +26,22 @@ export default class OutsideClick extends Component {
 
   /**
    * Set the wrapper ref
+   *
+   * @param {object} node
+   * @memberof OutsideClick
    */
   setWrapperRef(node) {
     this.wrapperRef = node;
   }
 
   /**
-   * Alert if clicked on outside of element
+   * Handle event if clicked outside of element
+   *
+   * @param {object} event
+   * @memberof OutsideClick
    */
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      // alert('You clicked outside of me!');
       this.props.onClickOutside && this.props.onClickOutside();
     }
   }
