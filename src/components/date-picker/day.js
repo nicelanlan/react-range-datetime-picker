@@ -178,7 +178,7 @@ export default class Day extends React.Component {
         role="option"
         aria-selected={false}
       >
-        {getDate(this.props.day)}
+        {this.props.day.getMonth() === this.props.month ? getDate(this.props.day) : ''}
       </div>
     );
   }

@@ -10,13 +10,13 @@ const dayOfWeekCodes = {
   6: 'sat',
 };
 const dayOfWeekCodesMin = {
-  0: 'Su',
-  1: 'Mo',
-  2: 'Tu',
-  3: 'We',
-  4: 'Th',
-  5: 'Fr',
-  6: 'Sa',
+  0: 'SU',
+  1: 'MO',
+  2: 'TU',
+  3: 'WE',
+  4: 'TH',
+  5: 'FR',
+  6: 'SA',
 };
 const dayOfWeekCodesShort = {
   0: 'Sun',
@@ -27,6 +27,20 @@ const dayOfWeekCodesShort = {
   5: 'Fri',
   6: 'Sat',
 };
+const monthCodeFull = {
+  0: 'January',
+  1: 'February',
+  2: 'March',
+  3: 'April',
+  4: 'May',
+  5: 'June',
+  6: 'July',
+  7: 'Auguest',
+  8: 'September',
+  9: 'October',
+  10: 'November',
+  11: 'December',
+}
 
 export function getTimeByDate(date) {
   if (!date) {
@@ -149,6 +163,10 @@ export function getDayOfWeekCodeMin(day) {
 
 export function getDayOfWeekCodeShort(day) {
   return dayOfWeekCodesShort[day.getDay()];
+}
+
+export function getMonthFullName(month) {
+  return monthCodeFull[month.getMonth()];
 }
 
 export function getStartOfDay(date) {

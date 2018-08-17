@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-// import DatePicker from './components/date-picker';
+import DatePicker from './components/date-picker';
 import { RangeDatePicker } from './components/date-picker';
-import moment from 'moment';
-// import './components/date-picker/stylesheets/datepicker.scss';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: moment(),
+      startDate: null,
     };
   }
 
@@ -19,29 +17,54 @@ class App extends Component {
   };
 
   render() {
+    const dateNow = new Date();
+    const injectTime1 = new Date(dateNow.setHours(0));
+    injectTime1.setMinutes(3);
+    const injectTime2 = new Date(dateNow.setHours(3));
+    injectTime2.setMinutes(20);
     return (
       <div className="row">
-        {/* <div className="column">
+        <div className="column">
+          <p> Date-Picker </p>
+          <DatePicker
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+            timeFormat="HH:MM"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="HH:MM dd/mm/yyyy"
+            hintText="Select date"
+          />
+        </div>
+
+        <div className="column">
+          <p> Date-Time-Picker </p>
           <DatePicker
             selected={this.state.startDate}
             onChange={this.handleChange}
             showTimeSelect
-            timeFormat="HH:mm"
+            timeFormat="HH:MM"
             timeIntervals={15}
             timeCaption="time"
-            dateFormat="LLL"
+            dateFormat="HH:MM dd/mm/yyyy"
+            hintText="Select time"
           />
-        </div> */}
+        </div>
 
         <div className="column">
+          <p> Date-Time-Range-Picker </p>
           <RangeDatePicker
-            selected={this.state.startDate}
-            onChange={this.handleChange}
             showTimeSelect
-            timeFormat="HH:mm"
+            timeFormat="HH:MM"
             timeIntervals={15}
             timeCaption="time"
-            dateFormat="LLL"
+            dateFormat="HH:MM dd/mm/yyyy"
+            hintText="Time range"
+            injectTimes={[
+              new Date(injectTime1),
+              new Date(injectTime2),
+            ]}
+            onChange={this.handleChange}
           />
         </div>
       </div>

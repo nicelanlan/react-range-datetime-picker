@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DatePicker from './date-picker';
 
 const PREFIX_CLASSNAME = 'react-datepicker';
@@ -7,8 +8,8 @@ export default class RangeDatePicker extends React.Component {
     super(props);
     this.state = {
       endPickerOpen: false,
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: props.startDate,
+      endDate: props.endDate,
     };
   }
 
@@ -43,53 +44,70 @@ export default class RangeDatePicker extends React.Component {
   }
 
   render() {
-    const dateNow = new Date();
-    const injectTime1 = new Date(dateNow.setHours(0));
-    injectTime1.setMinutes(3);
-    const injectTime2 = new Date(dateNow.setHours(3));
-    injectTime2.setMinutes(20);
+    const {dateFormat, hintText, minDate, maxDate, showDisabledMonthNavigation, showTimeSelect, timeCaption, timeFormat, injectTimes} = this.props;
     return (
       <div className={`${PREFIX_CLASSNAME}-range`}>
         <DatePicker
+          hintText={hintText}
           selected={this.state.startDate}
           selectsStart
           startDate={this.state.startDate}
           endDate={this.state.endDate}
-          onChange={this.handleChangeStart}
-          showTimeSelect
-          timeFormat="HH:MM"
+          showTimeSelect={showTimeSelect}
+          timeFormat={timeFormat}
           timeIntervals={15}
-          timeCaption="time"
-          dateFormat="HH:MM dd/mm/yyyy"
+          timeCaption={timeCaption}
+          dateFormat={dateFormat}
+          injectTimes={injectTimes}
+          minDate={minDate}
+          maxDate={maxDate}
+          showDisabledMonthNavigation={showDisabledMonthNavigation}
+          onChange={this.handleChangeStart}
           afterSelected={this.afterStartPickerSelected}
-          injectTimes={[
-            new Date(injectTime1),
-            new Date(injectTime2),
-          ]}
-          // minDate={new Date()}
-          // maxDate={addMonths(new Date(), 5)}
-          showDisabledMonthNavigation
         />
-        -&nbsp;
+        {this.state.startDate ? ' - ' : ''}
         <DatePicker
           startOpen={this.state.endPickerOpen}
           selected={this.state.endDate}
           selectsEnd
           startDate={this.state.startDate}
           endDate={this.state.endDate}
+          showTimeSelect={showTimeSelect}
+          timeFormat={timeFormat}
+          timeIntervals={15}
+          timeCaption={timeCaption}
+          dateFormat={dateFormat}
+          injectTimes={injectTimes}
+          minDate={minDate}
+          maxDate={maxDate}
+          showDisabledMonthNavigation={showDisabledMonthNavigation}
           onChange={this.handleChangeEnd}
           onClickOutside={this.onClickOutside}
-          showTimeSelect
-          timeFormat="HH:MM"
-          timeIntervals={15}
-          timeCaption="time"
-          dateFormat="HH:MM dd/mm/yyyy"
           afterSelected={this.afterEndPickerSelected}
-          minDate={this.state.startDate}
-          showDisabledMonthNavigation
         />
         <hr className={`${PREFIX_CLASSNAME}-range-line`} />
       </div>
     );
   }
 }
+
+RangeDatePicker.propTypes = {
+  dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  endDate: PropTypes.object,
+  minTime: PropTypes.object,
+  maxTime: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  onMonthChange: PropTypes.func,
+  onSelect: PropTypes.func,
+  onWeekSelect: PropTypes.func,
+  onYearChange: PropTypes.func,
+  selected: PropTypes.object,
+  selectsEnd: PropTypes.bool,
+  selectsStart: PropTypes.bool,
+  showDisabledMonthNavigation: PropTypes.bool,
+  showTimeSelect: PropTypes.bool,
+  startDate: PropTypes.object,
+  timeCaption: PropTypes.string,
+  timeFormat: PropTypes.string,
+  timeIntervals: PropTypes.number,
+};

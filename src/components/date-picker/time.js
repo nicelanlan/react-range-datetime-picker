@@ -89,7 +89,7 @@ export default class Time extends React.Component {
 
   renderTimes = () => {
     let times = [];
-    const format = this.props.format ? this.props.format : 'hh:mm A';
+    const format = this.props.format ? this.props.format : 'HH:MM A';
     const intervals = this.props.intervals;
     const activeTime = this.props.selected ? this.props.selected : newDate();
     const currH = getHour(activeTime);
@@ -116,7 +116,6 @@ export default class Time extends React.Component {
         times = times.concat(timesToInject);
       }
     }
-
     return times.map((time, i) => (
       <li
         key={i}

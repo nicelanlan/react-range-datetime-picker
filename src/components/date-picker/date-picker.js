@@ -446,7 +446,7 @@ export default class DatePicker extends React.Component {
   };
 
   renderDateInput = () => {
-    const className = classnames('react-datepicker-input', {'react-datepicker-input-range': this.props.selectsStart || this.props.selectsEnd});
+    const className = classnames(`${PREFIX_CLASSNAME}__input-container__input`, {'react-datepicker__input-range': this.props.selectsStart || this.props.selectsEnd});
     const customInput = this.props.customInput || <input type="text" />;
     const customInputRef = this.props.customInputRef || 'ref';
     const inputValue =
@@ -510,11 +510,11 @@ export default class DatePicker extends React.Component {
       return calendar;
     }
 
-    const classes = classnames('react-datepicker-popper', this.props.popperClassName);
+    const classes = classnames('react-datepicker__popper', this.props.popperClassName);
     const display = (this.state.open && !this.props.disabled) || this.props.startOpen ? 'block' : 'none';
     return (
       <OutsideClick onClickOutside={this.handleClickOutside}>
-        <div className="react-datepicker-wrapper">
+        <div className="react-datepicker__wrapper">
           <div className={`${PREFIX_CLASSNAME}__input-container`}>
             {this.renderDateInput()}
             {this.renderClearButton()}

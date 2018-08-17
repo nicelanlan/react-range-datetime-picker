@@ -11,7 +11,7 @@ import {
   getStartOfWeek,
   addDays,
   cloneDate,
-  formatDate,
+  getMonthFullName,
   isBefore,
   isAfter,
   getDayOfWeekCodeShort,
@@ -85,19 +85,19 @@ export default class Calendar extends React.Component {
 
   // localizeDate = date => localizeDate(date, this.props.locale);
 
-  increaseMonth = () => {
+  increaseMonth = (num) => {
     this.setState(
       {
-        date: addMonths(cloneDate(this.state.date), 1)
+        date: addMonths(cloneDate(this.state.date), num)
       },
       () => this.handleMonthChange(this.state.date)
     );
   };
 
-  decreaseMonth = () => {
+  decreaseMonth = (num) => {
     this.setState(
       {
-        date: subtractMonths(cloneDate(this.state.date), 1)
+        date: subtractMonths(cloneDate(this.state.date), num)
       },
       () => this.handleMonthChange(this.state.date)
     );
@@ -152,7 +152,7 @@ export default class Calendar extends React.Component {
       : getDayOfWeekCodeMin( day);
   };
 
-  renderPreviousMonthButton = () => {
+  renderPreviousMonthButton = (clickHandler) => {
     const allPrevDaysDisabled = allDaysDisabledBefore(
       this.state.date,
       'month',
@@ -171,23 +171,22 @@ export default class Calendar extends React.Component {
       `${PREFIX_CLASSNAME}__navigation--previous`
     ];
 
-    let clickHandler = this.decreaseMonth;
+    // let clickHandler = this.decreaseMonth;
 
     if (allPrevDaysDisabled && this.props.showDisabledMonthNavigation) {
-      classes.push(`${PREFIX_CLASSNAME}__navigation--previous--disabled`);
+      classes.push(`${PREFIX_CLASSNAME}__navigation--disabled`);
       clickHandler = null;
     }
 
     return (
-      <button
-        type="button"
+      <div
         className={classes.join(' ')}
         onClick={clickHandler}
       />
     );
   };
 
-  renderNextMonthButton = () => {
+  renderNextMonthButton = (clickHandler) => {
     const allNextDaysDisabled = allDaysDisabledAfter(
       this.state.date,
       'month',
@@ -209,16 +208,15 @@ export default class Calendar extends React.Component {
       classes.push(`${PREFIX_CLASSNAME}__navigation--next--with-time`);
     }
 
-    let clickHandler = this.increaseMonth;
+    // let clickHandler = this.increaseMonth;
 
     if (allNextDaysDisabled && this.props.showDisabledMonthNavigation) {
-      classes.push(`${PREFIX_CLASSNAME}__navigation--next--disabled`);
+      classes.push(`${PREFIX_CLASSNAME}__navigation--disabled`);
       clickHandler = null;
     }
 
     return (
-      <button
-        type="button"
+      <div
         className={classes.join(' ')}
         onClick={clickHandler}
       />
@@ -228,10 +226,22 @@ export default class Calendar extends React.Component {
   renderCurrentMonth = (date = this.state.date) => {
     return (
       <div className={`${PREFIX_CLASSNAME}__current-month`}>
-        {formatDate(date, this.props.dateFormat)}
+        {this.renderPreviousMonthButton(this.decreaseMonth.bind(this, 1))}
+        <p>{getMonthFullName(date)}</p>
+        {this.renderNextMonthButton(this.increaseMonth.bind(this, 1))}
       </div>
     );
   };
+
+  renderYear = (date = this.state.date) => {
+    return (
+      <div className={`${PREFIX_CLASSNAME}__year`}>
+        {this.renderPreviousMonthButton(this.decreaseMonth.bind(this, 12))}
+        <p>{date.getFullYear()}</p>
+        {this.renderNextMonthButton(this.increaseMonth.bind(this, 12))}
+      </div>
+    );
+  }
 
   renderMonths = () => {
     var monthList = [];
@@ -248,9 +258,10 @@ export default class Calendar extends React.Component {
         >
           <div className={`${PREFIX_CLASSNAME}__header`}>
             {this.renderCurrentMonth(monthDate)}
-            <div className={`${PREFIX_CLASSNAME}__day-names`}>
-              {this.header(monthDate)}
-            </div>
+            {this.renderYear(monthDate)}
+          </div>
+          <div className={`${PREFIX_CLASSNAME}__day-names`}>
+            {this.header(monthDate)}
           </div>
           <Month
             day={monthDate}
@@ -310,8 +321,6 @@ export default class Calendar extends React.Component {
       <Container
         className={classnames(PREFIX_CLASSNAME, this.props.className)}
       >
-        {this.renderPreviousMonthButton()}
-        {this.renderNextMonthButton()}
         {this.renderMonths()}
         {this.renderTimeSection()}
         {this.props.children}
