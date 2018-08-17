@@ -29,9 +29,6 @@ class App extends Component {
           <DatePicker
             selected={this.state.startDate}
             onChange={this.handleChange}
-            timeFormat="HH:MM"
-            timeIntervals={15}
-            timeCaption="time"
             dateFormat="HH:MM dd/mm/yyyy"
             hintText="Select date"
           />
